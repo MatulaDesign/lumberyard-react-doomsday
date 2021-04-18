@@ -1,8 +1,8 @@
-# react-doomsday
-
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@lumberyard/react-doomsday)
 [![NPM](https://img.shields.io/npm/v/@lumberyard/react-doomsday.svg)](https://www.npmjs.com/package/@lumberyard/react-doomsday)
 ![npm](https://img.shields.io/npm/dw/@lumberyard/react-doomsday)
+
+# react-doomsday
 
 ## **A nifty countdown component for React**
 
@@ -17,7 +17,7 @@ Doomsday is a component written originally for one of my projects. I needed some
 - [Doomsday component](#doomsday-component)
 - [Doomsday hook](#doomsday-hook)
 - [Doomsday types](#doomsday-types)
-- [Stuff](#stuff)
+- [Doomsday stuff](#doomsday-stuff)
 
 <br>
 
@@ -40,6 +40,12 @@ const Example: React.FC = () => {
 
 <br>
 
+## Demo
+
+### [Codesandbox](https://codesandbox.io/s/react-doomsday-r24y3)
+
+<br>
+
 ## Install
 
 ```bash
@@ -47,12 +53,6 @@ yarn add @lumberyard/react-doomsday
 
 npm install --save @lumberyard/react-doomsday
 ```
-
-<br>
-
-## Demo
-
-### [Codesandbox](https://codesandbox.io/s/react-doomsday-r24y3)
 
 <br>
 
@@ -219,7 +219,7 @@ Since react-doomsday is written with TypeScript I am going to list typings inste
 | showDefaults                                 | boolean                           | true                  | If you use one of the [RenderUnit](#renderunit) props, a corresponding default will be overwritten. This turns the defaults off                                                                                                   |
 | goodbye                                      | React.ReactElement                | undefined             | `goodbye` renders the component you wish to show when the countdown is finished                                                                                                                                                   |
 | render                                       | [RenderDoomsday](#renderdoomsday) | undefined             | This prop returns [DoomsdayCreator](#doomsdaycreator) object. It basically is an inner wraper around plugin's logic that gives you access to all date calculations. It overwrites RenderUnits, so it's either this or the rest... |
-| renderAll                                    | boolean                           | false                 | ...unless this prop is set to `true`, which will display component passed with `render` as a last child (after) `seconds`                                                                                                         |
+| renderAll                                    | boolean                           | false                 | ...unless this prop is set to `true`, which will display component passed with `render` as a last child (after `seconds`)                                                                                                         |
 | years, months, days, hours, minutes, seconds | [RenderUnit](#renderunit)         | undefined             | returns a function that passes [DoomsdayUnit](#doomsdayunit) object as its prop and takes a JSX component that gets rendered inside `<Doomsday/>`'s wrapper                                                                       |
 
 <br>
@@ -295,11 +295,13 @@ This is [DoomsdayCreator](#doomsdaycreator) in (sort of) reverse. Depending on w
 
 <br>
 
-## Stuff
+## Doomsday stuff
 
-If you feel the docs are missing something, or some stuff isn't clear, feel free to open an issue.<br>
-I feel this plugin is simple enough to get by without unit tests. TS is here to keep an eye on things.<br>
-As for the Code of Conduct, there is none. Just be humane to humans and non-humans alike.
+If you think the docs are missing something, or some stuff isn't clear, feel free to open an issue.<br>
+I decided this plugin is simple enough to get by without unit tests. TS is here to keep an eye on things.<br>
+As for the Code of Conduct - there is none. Just be humane to humans and non-humans alike.
+
+<br>
 
 ## License
 
