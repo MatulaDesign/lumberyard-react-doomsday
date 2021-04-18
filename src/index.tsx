@@ -1,14 +1,17 @@
 import * as React from 'react'
 import dayjs from 'dayjs'
 
-import * as I from './typings'
+import * as I from './types'
 import { createDoomsdate } from './utils'
 
-function useDoomsday(date: dayjs.ConfigType, play?: boolean) {
+function useDoomsday(date: dayjs.ConfigType, play: boolean = true) {
+  if (dayjs(date).valueOf() < dayjs().valueOf())
+    throw new Error('Doomsday: The past is in the past, pick some future date')
+
   const doom = React.useMemo(() => createDoomsdate(date), [date])
   const [doomsday, setDoomsday] = React.useState(doom)
   const [ticker, setTicker] = React.useState(doomsday.endOfTime.seconds)
-  const [isFinished, setIsFinished] = React.useState(false)
+  const [isHere, setIsHere] = React.useState(false)
 
   const refresh = React.useCallback(
     (now: dayjs.ConfigType) => setDoomsday(createDoomsdate(date, now)),
@@ -22,7 +25,7 @@ function useDoomsday(date: dayjs.ConfigType, play?: boolean) {
         refresh(dayjs())
         setTicker((s) => --s)
         if (ticker <= 0) {
-          setIsFinished(true)
+          setIsHere(true)
           clearInterval(tick)
         }
       }, 1000)
@@ -31,16 +34,17 @@ function useDoomsday(date: dayjs.ConfigType, play?: boolean) {
     return () => clearInterval(tick)
   }, [refresh, play, ticker, doomsday.endOfMinute.seconds])
 
-  return { doomsday, isFinished }
+  return { doomsday, isHere }
 }
 
 const Doomsday: React.FC<I.DoomsdayProps> = ({
   date = dayjs().endOf('year'),
   play = true,
   showDefaults = true,
+  renderAll = false,
   ...props
 }) => {
-  const { doomsday, isFinished } = useDoomsday(date, play)
+  const { doomsday, isHere } = useDoomsday(date, play)
   const formattedDate = dayjs(date).format(props.format)
 
   const renderUnit = (type: I.UnitType) =>
@@ -53,22 +57,24 @@ const Doomsday: React.FC<I.DoomsdayProps> = ({
           endOfHour: doomsday.endOfHour[type]!,
           endOfMinute: doomsday.endOfMinute[type]!,
           endOfSecond: doomsday.endOfSecond[type]!,
-          endOfSequence: doomsday.endOfSequence[type]!,
+          endOfTimeSequence: doomsday.endOfTimeSequence[type]!,
           endOfTimeFloat: doomsday.endOfTimeFloat[type]!,
           type,
           label: (u: number, text?: string) =>
             u === 1 ? (text || type).slice(0, -1) : text || type
         })
       : showDefaults && (
-          <div>
-            <div>{doomsday.endOfSequence[type]!}</div>
-            <div>
-              {doomsday.endOfSequence[type] === 1 ? type.slice(0, -1) : type}
-            </div>
+          <div style={{ margin: '0 4px' }}>
+            <span>{doomsday.endOfTimeSequence[type]!} </span>
+            <span>
+              {doomsday.endOfTimeSequence[type] === 1
+                ? type.slice(0, -1)
+                : type}
+            </span>
           </div>
         )
 
-  const renderAll =
+  const render =
     props.render && props.render({ ...doomsday, date: formattedDate })
   const renderYears = renderUnit('years')
   const renderMonths = renderUnit('months')
@@ -77,19 +83,38 @@ const Doomsday: React.FC<I.DoomsdayProps> = ({
   const renderMinutes = renderUnit('minutes')
   const renderSeconds = renderUnit('seconds')
 
-  const { render, years, days, hours, months, minutes, seconds, ...div } = props
+  const { seconds, minutes, hours, days, months, years, ...div } = props
 
-  if (isFinished) return <div {...div}>{props.finish}</div>
-  if (props.render) return <div {...div}>{renderAll}</div>
+  const styles = {
+    padding: 10,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...props.style
+  }
+
+  if (isHere)
+    return (
+      <div style={styles} {...div}>
+        {props.goodbye}
+      </div>
+    )
+  if (props.render && !renderAll)
+    return (
+      <div style={styles} {...div}>
+        {render}
+      </div>
+    )
 
   return (
-    <div {...div}>
+    <div style={styles} {...div}>
       {renderYears}
       {renderMonths}
       {renderDays}
       {renderHours}
       {renderMinutes}
       {renderSeconds}
+      {renderAll && render}
     </div>
   )
 }

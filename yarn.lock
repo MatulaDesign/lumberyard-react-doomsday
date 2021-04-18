@@ -7994,9 +7994,9 @@ object-hash@^2.0.1:
   integrity sha512-VOJmgmS+7wvXf8CjbQmimtCnEx3IAoLxI3fp2fbWehxrWBcAQFbk+vcwb6vzR0VZv/eNCJ/27j151ZTwqW/JeQ==
 
 object-inspect@^1.9.0:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/object-inspect/-/object-inspect-1.9.0.tgz#c90521d74e1127b67266ded3394ad6116986533a"
-  integrity sha512-i3Bp9iTqwhaLZBxGkRfo5ZbE07BQRT7MGu8+nNgwW9ItGp1TzCTw2DLEoWwjClxBjOFI/hWljTAmYGCEwmtnOw==
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/object-inspect/-/object-inspect-1.10.0.tgz#b7fbe0ff392e09ac138f9d0552920f0c5697a4d1"
+  integrity sha512-9LnIbH6efKf0CeEZkb3ny2C9fuPIssucCN7UlI60aX68yl40ZUhvECEGhXOlpH8cbuoQ9ex8R4tAvewbVINGOA==
 
 object-is@^1.0.1:
   version "1.1.5"

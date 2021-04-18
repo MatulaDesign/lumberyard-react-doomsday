@@ -66,7 +66,7 @@ var createDoomsdate = function createDoomsdate(date, refresh) {
     target: target,
     nowTimestamp: now.valueOf(),
     targetTimestamp: target.valueOf(),
-    endOfSequence: {
+    endOfTimeSequence: {
       years: target.diff(now, 'years'),
       months: takeYr.diff(now, 'months'),
       days: takeMo.diff(now, 'days'),
@@ -100,6 +100,11 @@ var createDoomsdate = function createDoomsdate(date, refresh) {
 };
 
 function useDoomsday(date, play) {
+  if (play === void 0) {
+    play = true;
+  }
+
+  if (dayjs_min(date).valueOf() < dayjs_min().valueOf()) throw new Error('Doomsday: The past is in the past, pick some future date');
   var doom = React.useMemo(function () {
     return createDoomsdate(date);
   }, [date]);
@@ -113,8 +118,8 @@ function useDoomsday(date, play) {
       setTicker = _React$useState2[1];
 
   var _React$useState3 = React.useState(false),
-      isFinished = _React$useState3[0],
-      setIsFinished = _React$useState3[1];
+      isHere = _React$useState3[0],
+      setIsHere = _React$useState3[1];
 
   var refresh = React.useCallback(function (now) {
     return setDoomsday(createDoomsdate(date, now));
@@ -130,7 +135,7 @@ function useDoomsday(date, play) {
         });
 
         if (ticker <= 0) {
-          setIsFinished(true);
+          setIsHere(true);
           clearInterval(tick);
         }
       }, 1000);
@@ -142,7 +147,7 @@ function useDoomsday(date, play) {
   }, [refresh, play, ticker, doomsday.endOfMinute.seconds]);
   return {
     doomsday: doomsday,
-    isFinished: isFinished
+    isHere: isHere
   };
 }
 
@@ -153,11 +158,13 @@ var Doomsday = function Doomsday(_ref) {
       play = _ref$play === void 0 ? true : _ref$play,
       _ref$showDefaults = _ref.showDefaults,
       showDefaults = _ref$showDefaults === void 0 ? true : _ref$showDefaults,
-      props = _objectWithoutPropertiesLoose(_ref, ["date", "play", "showDefaults"]);
+      _ref$renderAll = _ref.renderAll,
+      renderAll = _ref$renderAll === void 0 ? false : _ref$renderAll,
+      props = _objectWithoutPropertiesLoose(_ref, ["date", "play", "showDefaults", "renderAll"]);
 
   var _useDoomsday = useDoomsday(date, play),
       doomsday = _useDoomsday.doomsday,
-      isFinished = _useDoomsday.isFinished;
+      isHere = _useDoomsday.isHere;
 
   var formattedDate = dayjs_min(date).format(props.format);
 
@@ -170,16 +177,20 @@ var Doomsday = function Doomsday(_ref) {
       endOfHour: doomsday.endOfHour[type],
       endOfMinute: doomsday.endOfMinute[type],
       endOfSecond: doomsday.endOfSecond[type],
-      endOfSequence: doomsday.endOfSequence[type],
+      endOfTimeSequence: doomsday.endOfTimeSequence[type],
       endOfTimeFloat: doomsday.endOfTimeFloat[type],
       type: type,
       label: function label(u, text) {
         return u === 1 ? (text || type).slice(0, -1) : text || type;
       }
-    }) : showDefaults && React.createElement("div", null, React.createElement("div", null, doomsday.endOfSequence[type]), React.createElement("div", null, doomsday.endOfSequence[type] === 1 ? type.slice(0, -1) : type));
+    }) : showDefaults && React.createElement("div", {
+      style: {
+        margin: '0 4px'
+      }
+    }, React.createElement("span", null, doomsday.endOfTimeSequence[type], " "), React.createElement("span", null, doomsday.endOfTimeSequence[type] === 1 ? type.slice(0, -1) : type));
   };
 
-  var renderAll = props.render && props.render(_extends({}, doomsday, {
+  var render = props.render && props.render(_extends({}, doomsday, {
     date: formattedDate
   }));
   var renderYears = renderUnit('years');
@@ -189,11 +200,24 @@ var Doomsday = function Doomsday(_ref) {
   var renderMinutes = renderUnit('minutes');
   var renderSeconds = renderUnit('seconds');
 
-  var div = _objectWithoutPropertiesLoose(props, ["render", "years", "days", "hours", "months", "minutes", "seconds"]);
+  var div = _objectWithoutPropertiesLoose(props, ["seconds", "minutes", "hours", "days", "months", "years"]);
 
-  if (isFinished) return React.createElement("div", Object.assign({}, div), props.finish);
-  if (props.render) return React.createElement("div", Object.assign({}, div), renderAll);
-  return React.createElement("div", Object.assign({}, div), renderYears, renderMonths, renderDays, renderHours, renderMinutes, renderSeconds);
+  var styles = _extends({
+    padding: 10,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }, props.style);
+
+  if (isHere) return React.createElement("div", Object.assign({
+    style: styles
+  }, div), props.goodbye);
+  if (props.render && !renderAll) return React.createElement("div", Object.assign({
+    style: styles
+  }, div), render);
+  return React.createElement("div", Object.assign({
+    style: styles
+  }, div), renderYears, renderMonths, renderDays, renderHours, renderMinutes, renderSeconds, renderAll && render);
 };
 
 module.exports = Doomsday;

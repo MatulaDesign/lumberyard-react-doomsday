@@ -1,9 +1,9 @@
 {
   "name": "@lumberyard/react-doomsday",
-  "version": "1.0.1",
-  "description": "A nifty time countdown react component",
+  "version": "1.1.0",
+  "description": "A nifty countdown component for React",
   "author": "NorweskiDrwal",
-  "license": "GPL-3.0",
+  "license": "MIT",
   "repository": "https://github.com/MatulaDesign/lumberyard-react-doomsday",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",

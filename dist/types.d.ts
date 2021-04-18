@@ -3,23 +3,25 @@ import dayjs from 'dayjs';
 declare type DivProps = React.HTMLAttributes<HTMLDivElement>;
 export declare type UnitType = 'seconds' | 'minutes' | 'hours' | 'days' | 'months' | 'years';
 export declare type RenderUnit = (to: RenderEndOfUnit) => React.ReactElement;
+export declare type RenderDoomsday = (doom: DoomsdayCreator) => React.ReactElement;
 export interface DoomsdayProps extends DivProps {
     date?: dayjs.ConfigType;
+    format?: string;
+    play?: boolean;
+    showDefaults?: boolean;
+    goodbye?: React.ReactElement;
     years?: RenderUnit;
     months?: RenderUnit;
     days?: RenderUnit;
     hours?: RenderUnit;
     minutes?: RenderUnit;
     seconds?: RenderUnit;
-    play?: boolean;
-    format?: string;
-    showDefaults?: boolean;
-    finish?: React.ReactElement;
-    render?: (doom: DoomsdayCreator & {
-        date: string;
-    }) => React.ReactElement;
+    render?: RenderDoomsday;
+    renderAll?: boolean;
 }
 interface EndOfUnit {
+    endOfTimeSequence: number;
+    endOfTimeFloat: number;
     endOfTime: number;
     endOfYear: number;
     endOfMonth: number;
@@ -27,8 +29,6 @@ interface EndOfUnit {
     endOfHour: number;
     endOfMinute: number;
     endOfSecond: number;
-    endOfSequence: number;
-    endOfTimeFloat: number;
 }
 export interface RenderEndOfUnit extends EndOfUnit {
     type: UnitType;
@@ -45,9 +45,9 @@ export interface Units {
 export interface DoomsdayCreator {
     now: dayjs.Dayjs;
     target: dayjs.Dayjs;
-    nowTimestamp: number | dayjs.Dayjs;
-    targetTimestamp: number | dayjs.Dayjs;
-    endOfSequence: Units;
+    nowTimestamp: number;
+    targetTimestamp: number;
+    endOfTimeSequence: Units;
     endOfTime: Units;
     endOfTimeFloat: Units;
     endOfYear: Units;
@@ -56,5 +56,6 @@ export interface DoomsdayCreator {
     endOfHour: Units;
     endOfMinute: Units;
     endOfSecond: Units;
+    date?: string;
 }
 export {};
