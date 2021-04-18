@@ -56,7 +56,6 @@ const Doomsday: React.FC<I.DoomsdayProps> = ({
           endOfDay: doomsday.endOfDay[type]!,
           endOfHour: doomsday.endOfHour[type]!,
           endOfMinute: doomsday.endOfMinute[type]!,
-          endOfSecond: doomsday.endOfSecond[type]!,
           endOfTimeSequence: doomsday.endOfTimeSequence[type]!,
           endOfTimeFloat: doomsday.endOfTimeFloat[type]!,
           type,
@@ -74,7 +73,7 @@ const Doomsday: React.FC<I.DoomsdayProps> = ({
           </div>
         )
 
-  const render =
+  const renderDoom =
     props.render && props.render({ ...doomsday, date: formattedDate })
   const renderYears = renderUnit('years')
   const renderMonths = renderUnit('months')
@@ -83,10 +82,9 @@ const Doomsday: React.FC<I.DoomsdayProps> = ({
   const renderMinutes = renderUnit('minutes')
   const renderSeconds = renderUnit('seconds')
 
-  const { seconds, minutes, hours, days, months, years, ...div } = props
+  const { seconds, minutes, hours, days, months, years, render, ...div } = props
 
   const styles = {
-    padding: 10,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -102,7 +100,7 @@ const Doomsday: React.FC<I.DoomsdayProps> = ({
   if (props.render && !renderAll)
     return (
       <div style={styles} {...div}>
-        {render}
+        {renderDoom}
       </div>
     )
 
@@ -114,7 +112,7 @@ const Doomsday: React.FC<I.DoomsdayProps> = ({
       {renderHours}
       {renderMinutes}
       {renderSeconds}
-      {renderAll && render}
+      {renderAll && renderDoom}
     </div>
   )
 }

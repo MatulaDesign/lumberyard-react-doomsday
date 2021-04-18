@@ -6,9 +6,11 @@
 
 <br>
 
-Doomsday is a component written originally for one of my projects. I needed something that would be very flexible at displaying time countdown and since existing solutions required hacking around to make the countdown behave as I intended, I wrote our own and decided to publish it. Maybe somebody will find it useful.
+It weighs only ~4kb gzipped.
 
-**react-doomsday** was written with TypeScript and is using [dayjs](https://day.js.org/) in the background. It's sole purpose is to count time from **now** until **some date in the future**.
+Doomsday is a component written originally for one of my projects. I needed something that would be very flexible at displaying time countdown and since existing solutions required hacking around to make the countdown behave as I intended, I wrote my own and decided to publish it. Maybe somebody will find it useful.
+
+**react-doomsday** is written with TypeScript and is using [dayjs](https://day.js.org/) in the background. It's sole purpose is to count time from **now** until **some date in the future**.
 
 ## Menu
 
@@ -64,7 +66,6 @@ Default styles of the component can be overwritten.
 
 ```javascript
 const defaultStyles = {
-  padding: 10,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center'
@@ -230,6 +231,7 @@ Since react-doomsday is written with TypeScript I am going to list typings inste
 | target            | dayjs.Dayjs     | dayjs(`date`)    | `date` passed as a prop used as an argument for dayjs                                                        |
 | nowTimestamp      | number          | now.valueOf()    | timestamp of `now`                                                                                           |
 | targetTimestamp   | number          | target.valueOf() | timestamp of `target`                                                                                        |
+| diffTimestamp     | number          | target - now     | timestamp of a difference between `targetTimestamp` and `nowTimestamp`                                       |
 | endOfTimeSequence | [Units](#units) | -                | returns an object with calculations per unit indicating logical sequence of time units until `target` is met |
 | endOfTimeFloat    | [Units](#units) | -                | returns time left per unit after subtracting `endOfTime` years                                               |
 | endOfTime         | [Units](#units) | -                | returns units left until target                                                                              |
@@ -238,7 +240,6 @@ Since react-doomsday is written with TypeScript I am going to list typings inste
 | endOfDay          | [Units](#units) | -                | you get the gist                                                                                             |
 | endOfHour         | [Units](#units) | -                | ...                                                                                                          |
 | endOfMinute       | [Units](#units) | -                | ...                                                                                                          |
-| endOfSecond       | [Units](#units) | -                | ...                                                                                                          |
 
 <br>
 
@@ -283,7 +284,6 @@ This is [DoomsdayCreator](#doomsdaycreator) in (sort of) reverse. Depending on w
 | endOfDay          | number                                    | ...                                                      |
 | endOfHour         | number                                    | ...                                                      |
 | endOfMinute       | number                                    | ...                                                      |
-| endOfSecond       | number                                    | ...                                                      |
 
 <br>
 

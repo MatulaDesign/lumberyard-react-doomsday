@@ -25,6 +25,7 @@ export const createDoomsdate = (
     target,
     nowTimestamp: now.valueOf(),
     targetTimestamp: target.valueOf(),
+    diffTimestamp: target.valueOf() - now.valueOf(),
     endOfTimeSequence: {
       years: target.diff(now, 'years'),
       months: takeYr.diff(now, 'months'),
@@ -53,7 +54,6 @@ export const createDoomsdate = (
     endOfMonth: endOfUnit(now, 'months'),
     endOfDay: endOfUnit(now, 'days'),
     endOfHour: endOfUnit(now, 'hours'),
-    endOfMinute: endOfUnit(now, 'minutes'),
-    endOfSecond: endOfUnit(now, 'seconds')
+    endOfMinute: endOfUnit(now, 'minutes')
   }
 }

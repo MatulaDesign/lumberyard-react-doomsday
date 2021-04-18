@@ -39,7 +39,6 @@ interface EndOfUnit {
   endOfDay: number
   endOfHour: number
   endOfMinute: number
-  endOfSecond: number
 }
 export interface RenderEndOfUnit extends EndOfUnit {
   type: UnitType
@@ -60,6 +59,7 @@ export interface DoomsdayCreator {
   target: dayjs.Dayjs
   nowTimestamp: number
   targetTimestamp: number
+  diffTimestamp: number
   endOfTimeSequence: Units
   endOfTime: Units
   endOfTimeFloat: Units
@@ -68,6 +68,5 @@ export interface DoomsdayCreator {
   endOfDay: Units
   endOfHour: Units
   endOfMinute: Units
-  endOfSecond: Units
   date?: string
 }
