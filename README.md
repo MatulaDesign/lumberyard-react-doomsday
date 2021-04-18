@@ -6,7 +6,7 @@
 
 <br>
 
-Doomsday is a component written originally for [Equiterra.io](https://equiterra.io). I needed something that would be very flexible at displaying time countdown and since existing solutions required hacking around to make the countdown behave as I intended, I wrote our own and decided to publish it. Maybe somebody will find it useful.
+Doomsday is a component written originally for one of my projects. I needed something that would be very flexible at displaying time countdown and since existing solutions required hacking around to make the countdown behave as I intended, I wrote our own and decided to publish it. Maybe somebody will find it useful.
 
 **react-doomsday** was written with TypeScript and is using [dayjs](https://day.js.org/) in the background. It's sole purpose is to count time from **now** until **some date in the future**.
 
@@ -60,7 +60,19 @@ npm install --save @lumberyard/react-doomsday
 
 All `<Doomsday/>` props are optional, however, bear in mind that this component has only bare minimum of styling. You can use `style`, `className` or any other popular CSS-in-JS solution to style it.
 
+Default styles of the component can be overwritten.
+
+```javascript
+const defaultStyles = {
+  padding: 10,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
+}
+```
+
 See [DoomsdayProps](#doomsdayprops)
+
 <br/>
 
 ### Examples
@@ -158,9 +170,9 @@ const Example: React.FC = () => {
 
 > **Use the hook in the very last child of the parent tree**
 
-If you want more freedom (but keep the default calculations), you can import a `useDoomsday` hook instead of `<Doomsday/>` component. This function is the ticker written using `setInterval()`. I didn't use `window.requestAnimationFrame()` because I know `setInterval()` better and didn't have time learning and understanding how the other works - I'll probably rewrite it at some point. There shouldn't be any breaking changes.<br>
+If you want more freedom (but keep the default calculations), you can import a `useDoomsday` hook instead of `<Doomsday/>` component. This function is the ticker written using `setInterval()`. I didn't use `window.requestAnimationFrame()` because I know `setInterval()` better and didn't have time to learn and understand how the other works - I'll probably rewrite it at some point. There shouldn't be any breaking changes.<br>
 
-The hook takes a `date` and an optional `play` argument and returns a `doomsday` object and an `isHere` boolean
+The hook takes a `date` and an optional `play` argument and returns a `doomsday` object and an `isHere` flag.
 
 | prop     | type                                | description                                       |
 | -------- | ----------------------------------- | ------------------------------------------------- |
@@ -197,16 +209,16 @@ Since react-doomsday is written with TypeScript I am going to list typings inste
 
 ### DoomsdayProps
 
-| prop                                         | type                              | default               | description                                                                                                                                                                                                                                       |
-| -------------------------------------------- | --------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| date                                         | dayjs.ConfigType                  | dayjs().endOf('year') | This prop takes any date you might want to throw into `dayjs()`. **It only takes dates from the future**                                                                                                                                          |
-| format                                       | string                            | undefined             | You can set the date's format using strings from [dayjs](https://day.js.org/docs/en/display/format)                                                                                                                                               |
-| play                                         | boolean                           | true                  | This prop lets you programatically decide when to initialise the countdown                                                                                                                                                                        |
-| showDefaults                                 | boolean                           | true                  | If you use one of the `RenderUnit` props, a corresponding default will be overwritten. This turns the defaults off                                                                                                                                |
-| goodbye                                      | React.ReactElement                | undefined             | `goodbye` renders the component you wish to show when the countdown is finished.                                                                                                                                                                  |
-| render                                       | [RenderDoomsday](#renderdoomsday) | undefined             | This props returns [DoomsdayCreator](#doomsdaycreator) object. It basically is an inner wraper around plugin's logic that gives you access to all date calculations. It overwrites [RenderUnit](#renderunit)s, so it's either this or the rest... |
-| renderAll                                    | boolean                           | false                 | ...unless this prop is set to `true`, which will display component passed with `render` as a last child (after) `seconds`                                                                                                                         |
-| years, months, days, hours, minutes, seconds | [RenderUnit](#renderunit)         | undefined             | returns a function that passes [RenderEndOfUnit](#renderendofunit) object as its prop and takes a JSX component that gets rendered inside `<Doomsday/>`'s wrapper                                                                                 |
+| prop                                         | type                              | default               | description                                                                                                                                                                                                                        |
+| -------------------------------------------- | --------------------------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| date                                         | dayjs.ConfigType                  | dayjs().endOf('year') | This prop takes any date you might want to throw into `dayjs()`. **It only takes dates from the future**                                                                                                                           |
+| format                                       | string                            | undefined             | You can set the date's format using strings from [dayjs](https://day.js.org/docs/en/display/format)                                                                                                                                |
+| play                                         | boolean                           | true                  | This prop lets you programatically decide when to initialise the countdown                                                                                                                                                         |
+| showDefaults                                 | boolean                           | true                  | If you use one of the [RenderUnit](#renderunit) props, a corresponding default will be overwritten. This turns the defaults off                                                                                                    |
+| goodbye                                      | React.ReactElement                | undefined             | `goodbye` renders the component you wish to show when the countdown is finished.                                                                                                                                                   |
+| render                                       | [RenderDoomsday](#renderdoomsday) | undefined             | This props returns [DoomsdayCreator](#doomsdaycreator) object. It basically is an inner wraper around plugin's logic that gives you access to all date calculations. It overwrites RenderUnits, so it's either this or the rest... |
+| renderAll                                    | boolean                           | false                 | ...unless this prop is set to `true`, which will display component passed with `render` as a last child (after) `seconds`                                                                                                          |
+| years, months, days, hours, minutes, seconds | [RenderUnit](#renderunit)         | undefined             | returns a function that passes [RenderEndOfUnit](#renderendofunit) object as its prop and takes a JSX component that gets rendered inside `<Doomsday/>`'s wrapper                                                                  |
 
 <br>
 

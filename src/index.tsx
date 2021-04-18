@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 import * as I from './types'
 import { createDoomsdate } from './utils'
 
-function useDoomsday(date: dayjs.ConfigType, play: boolean = true) {
+export function useDoomsday(date: dayjs.ConfigType, play: boolean = true) {
   if (dayjs(date).valueOf() < dayjs().valueOf())
     throw new Error('Doomsday: The past is in the past, pick some future date')
 
