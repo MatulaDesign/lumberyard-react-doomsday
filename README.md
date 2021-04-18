@@ -8,9 +8,9 @@
 
 <br>
 
-Doomsday is a component written originally for one of my projects. I needed something that would be very flexible at displaying time countdown and since existing solutions required hacking around to make the countdown behave as I intended, I wrote my own and decided to publish it. Maybe somebody will find it useful.
+Doomsday is a component written originally for one of my projects. I needed something that would be very flexible at displaying time countdown and existing solutions required hacking around to make the countdown behave as I intended, so I wrote my own and decided to publish it. Maybe someone finds it useful.
 
-**react-doomsday** is written with TypeScript and is using [dayjs](https://day.js.org/) in the background. It's sole purpose is to count time from **now** until **some date in the future**.
+**react-doomsday** is written with TypeScript and uses [dayjs](https://day.js.org/) in the background. It's sole purpose is to count time from **now** until **some date in the future**.
 
 ## Menu
 
@@ -58,11 +58,11 @@ npm install --save @lumberyard/react-doomsday
 
 ## Doomsday component
 
-\<Doomsday/> is a \<div> wrapper around logic based on `dayjs`. The component gives you a bunch of ways of displaying the date. Each time-unit (eg. month, minute, etc.) is separate from the rest and works independently.
+\<Doomsday/> is a \<div> wrapper around logic based on `dayjs`. The component gives you a bunch of ways of displaying the date. Each unit of time (eg. month, minute, etc.) is separate from the rest and works independently.
 
 ### Props
 
-All `<Doomsday/>` props are optional, however, bear in mind that this component has only bare minimum of styling. You can use `style`, `className` or any other popular CSS-in-JS solution to style it. DoomsdayProps are extended by
+All `<Doomsday/>` props are optional, however, bear in mind that this component has only bare minimum of styling. You can use `style`, `className` or any other popular CSS-in-JS solution to style it. [DoomsdayProps](#doomsdayprops) are extended by \<div>'s native props, so whatever \<div> takes, so does \<Doomsday/>
 
 Default styles of the component can be overwritten.
 
@@ -214,10 +214,10 @@ Since react-doomsday is written with TypeScript I am going to list typings inste
 | prop                                         | type                              | default               | description                                                                                                                                                                                                                       |
 | -------------------------------------------- | --------------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | date                                         | dayjs.ConfigType                  | dayjs().endOf('year') | This prop takes any date you might want to throw into `dayjs()`. **It only takes dates from the future**                                                                                                                          |
-| format                                       | string                            | undefined             | You can set the date's format using strings from [dayjs](https://day.js.org/docs/en/display/format)                                                                                                                               |
+| format                                       | string                            | 'DD/MM/YYYY HH:mm:ss' | You can set the date's format using strings from [dayjs](https://day.js.org/docs/en/display/format)                                                                                                                               |
 | play                                         | boolean                           | true                  | This prop lets you programatically decide when to initialise the countdown                                                                                                                                                        |
 | showDefaults                                 | boolean                           | true                  | If you use one of the [RenderUnit](#renderunit) props, a corresponding default will be overwritten. This turns the defaults off                                                                                                   |
-| goodbye                                      | React.ReactElement                | undefined             | `goodbye` renders the component you wish to show when the countdown is finished.                                                                                                                                                  |
+| goodbye                                      | React.ReactElement                | undefined             | `goodbye` renders the component you wish to show when the countdown is finished                                                                                                                                                   |
 | render                                       | [RenderDoomsday](#renderdoomsday) | undefined             | This prop returns [DoomsdayCreator](#doomsdaycreator) object. It basically is an inner wraper around plugin's logic that gives you access to all date calculations. It overwrites RenderUnits, so it's either this or the rest... |
 | renderAll                                    | boolean                           | false                 | ...unless this prop is set to `true`, which will display component passed with `render` as a last child (after) `seconds`                                                                                                         |
 | years, months, days, hours, minutes, seconds | [RenderUnit](#renderunit)         | undefined             | returns a function that passes [DoomsdayUnit](#doomsdayunit) object as its prop and takes a JSX component that gets rendered inside `<Doomsday/>`'s wrapper                                                                       |
@@ -226,21 +226,22 @@ Since react-doomsday is written with TypeScript I am going to list typings inste
 
 ### DoomsdayCreator
 
-| prop              | type            | default          | description                                                                                                  |
-| ----------------- | --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------ |
-| now               | dayjs.Dayjs     | dayjs()          | now captured by dayjs                                                                                        |
-| target            | dayjs.Dayjs     | dayjs(`date`)    | `date` passed as a prop used as an argument for dayjs                                                        |
-| nowTimestamp      | number          | now.valueOf()    | timestamp of `now`                                                                                           |
-| targetTimestamp   | number          | target.valueOf() | timestamp of `target`                                                                                        |
-| diffTimestamp     | number          | target - now     | timestamp of a difference between `targetTimestamp` and `nowTimestamp`                                       |
-| endOfTimeSequence | [Units](#units) | -                | returns an object with calculations per unit indicating logical sequence of time units until `target` is met |
-| endOfTimeFloat    | [Units](#units) | -                | returns time left per unit after subtracting `endOfTime` years                                               |
-| endOfTime         | [Units](#units) | -                | returns units left until target                                                                              |
-| endOfYear         | [Units](#units) | -                | returns units left until end of year, if it's short, it returns 0                                            |
-| endOfMonth        | [Units](#units) | -                | same story, different end                                                                                    |
-| endOfDay          | [Units](#units) | -                | you get the gist                                                                                             |
-| endOfHour         | [Units](#units) | -                | ...                                                                                                          |
-| endOfMinute       | [Units](#units) | -                | ...                                                                                                          |
+| prop              | type            | default               | description                                                                                                  |
+| ----------------- | --------------- | --------------------- | ------------------------------------------------------------------------------------------------------------ |
+| now               | dayjs.Dayjs     | dayjs()               | now captured by dayjs                                                                                        |
+| target            | dayjs.Dayjs     | dayjs(`date`)         | `date` passed as a prop used as an argument for dayjs                                                        |
+| nowTimestamp      | number          | now.valueOf()         | timestamp of `now`                                                                                           |
+| targetTimestamp   | number          | target.valueOf()      | timestamp of `target`                                                                                        |
+| diffTimestamp     | number          | target - now          | timestamp of a difference between `targetTimestamp` and `nowTimestamp`                                       |
+| date              | string          | 'DD/MM/YYYY HH:mm:ss' | date in a given dayjs format                                                                                 |
+| endOfTimeSequence | [Units](#units) | -                     | returns an object with calculations per unit indicating logical sequence of time units until `target` is met |
+| endOfTimeFloat    | [Units](#units) | -                     | returns time left per unit after subtracting `endOfTime` years                                               |
+| endOfTime         | [Units](#units) | -                     | returns units left until target                                                                              |
+| endOfYear         | [Units](#units) | -                     | returns units left until end of year, if it's short, it returns 0                                            |
+| endOfMonth        | [Units](#units) | -                     | same story, different end                                                                                    |
+| endOfDay          | [Units](#units) | -                     | you get the gist                                                                                             |
+| endOfHour         | [Units](#units) | -                     | ...                                                                                                          |
+| endOfMinute       | [Units](#units) | -                     | ...                                                                                                          |
 
 <br>
 
