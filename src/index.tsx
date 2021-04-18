@@ -28,7 +28,7 @@ export function useDoomsday(date: dayjs.ConfigType, play: boolean = true) {
           setIsHere(true)
           clearInterval(tick)
         }
-      }, 1000)
+      }, 999.999)
     }
 
     return () => clearInterval(tick)
@@ -45,7 +45,7 @@ const Doomsday: React.FC<I.DoomsdayProps> = ({
   ...props
 }) => {
   const { doomsday, isHere } = useDoomsday(date, play)
-  const formattedDate = dayjs(date).format(props.format)
+  const formattedDate = doomsday.target.format(props.format)
 
   const renderUnit = (type: I.UnitType) =>
     props[type]

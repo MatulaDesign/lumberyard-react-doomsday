@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 import * as I from './types'
 
 const endOfUnit = (now: dayjs.Dayjs, type: I.UnitType) => ({
+  years: now.endOf(type).diff(now, 'years'),
   months: now.endOf(type).diff(now, 'months'),
   days: now.endOf(type).diff(now, 'days'),
   hours: now.endOf(type).diff(now, 'hours'),
@@ -23,6 +24,7 @@ export const createDoomsdate = (
   return {
     now,
     target,
+    date: target.format(`${date}`),
     nowTimestamp: now.valueOf(),
     targetTimestamp: target.valueOf(),
     diffTimestamp: target.valueOf() - now.valueOf(),

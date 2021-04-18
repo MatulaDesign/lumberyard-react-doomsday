@@ -11,7 +11,7 @@ export type UnitType =
   | 'months'
   | 'years'
 
-export type RenderUnit = (to: RenderEndOfUnit) => React.ReactElement
+export type RenderUnit = (to: DoomsdayUnit) => React.ReactElement
 export type RenderDoomsday = (doom: DoomsdayCreator) => React.ReactElement
 
 export interface DoomsdayProps extends DivProps {
@@ -30,7 +30,7 @@ export interface DoomsdayProps extends DivProps {
   renderAll?: boolean
 }
 
-interface EndOfUnit {
+export interface DoomsdayUnit {
   endOfTimeSequence: number
   endOfTimeFloat: number
   endOfTime: number
@@ -39,14 +39,12 @@ interface EndOfUnit {
   endOfDay: number
   endOfHour: number
   endOfMinute: number
-}
-export interface RenderEndOfUnit extends EndOfUnit {
   type: UnitType
   label: (endOf: number, text?: string) => string
 }
 
 export interface Units {
-  years?: number
+  years: number
   months: number
   days: number
   hours: number
@@ -68,5 +66,5 @@ export interface DoomsdayCreator {
   endOfDay: Units
   endOfHour: Units
   endOfMinute: Units
-  date?: string
+  date: string
 }
