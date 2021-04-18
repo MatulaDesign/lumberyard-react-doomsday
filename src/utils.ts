@@ -24,7 +24,7 @@ export const createDoomsdate = (
   return {
     now,
     target,
-    date: target.format(`${date}`),
+    date: target.format('DD/MM/YYYY HH:mm:ss'),
     nowTimestamp: now.valueOf(),
     targetTimestamp: target.valueOf(),
     diffTimestamp: target.valueOf() - now.valueOf(),
